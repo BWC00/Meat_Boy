@@ -3,10 +3,19 @@
 //
 
 #include "World.h"
+#include "../json.hpp"
+#include <fstream>
+#include <iostream>
 
-logic::World::World(const std::shared_ptr<logic::AbstractFactory>& p) : _factory(p) {
-    _view = _factory->createCamera();
+using json = nlohmann::json;
+
+logic::World::World(const std::shared_ptr<logic::AbstractFactory>& p, const std::string& levelName) : _factory(p) {
     _score = _factory->createScore();
+
+    std::ifstream f("../Data/Levels/" + levelName);
+    json data = json::parse(f);
+    std::cout << data["auto_view"] << std::endl;
+    //std::vector<std::vector<json> > map = data["auto_view"];
 }
 
 void logic::World::reset() {

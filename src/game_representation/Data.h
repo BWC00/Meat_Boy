@@ -14,7 +14,10 @@ namespace view {
         inline sf::Texture MeatBoyTexture;
         inline sf::Texture ConcreteWallTexture;
         inline sf::Texture MeatGirlTexture;
+        inline sf::Texture LevelBarTexture;
+        inline sf::Texture MenuBackgroundTexture;
         inline sf::Font font;
+        inline sf::Font levelFont;
 
         void load();
         template<typename T>

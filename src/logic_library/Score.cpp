@@ -4,9 +4,9 @@
 
 #include "Score.h"
 #include <cmath>
+#include "Camera.h"
 
-logic::Score::Score(const std::shared_ptr<logic::Camera>& view) : _score(0) {
-    _view = view;
+logic::Score::Score() : _score(0) {
 }
 
 int logic::Score::getScore() const {
@@ -14,11 +14,11 @@ int logic::Score::getScore() const {
 }
 
 void logic::Score::Update(logic::EVENT e, logic::Subject* changedSubject) {
-    if (changedSubject == _view.lock().get()) {
-        //if (!_view.lock()->getLost()) {
-        if (e == logic::EVENT::MOVE) {
-            _score = static_cast<int>(std::round(5*(((double)(_view.lock()->getLowerBound()-2))/0.10))); //15
-        }
-        //}
-    }
+//    if (changedSubject == _view.lock().get()) {
+//        //if (!_view.lock()->getLost()) {
+//        if (e == logic::EVENT::MOVE) {
+//            _score = static_cast<int>(std::round(5*(((double)(_view.lock()->getLowerBound()-2))/0.10))); //15
+//        }
+//        //}
+//    }
 }

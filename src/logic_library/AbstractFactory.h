@@ -16,7 +16,6 @@ namespace logic {
         virtual std::shared_ptr<logic::Player> createPlayer(double, double) = 0;
         virtual std::shared_ptr<logic::Wall> createWall(double, double) = 0;
         virtual std::shared_ptr<logic::Goal> createGoal(double, double) = 0;
-        virtual std::shared_ptr<logic::Camera> createCamera() = 0;
         virtual std::shared_ptr<logic::Score> createScore() = 0;
         virtual ~AbstractFactory() = default;
     };

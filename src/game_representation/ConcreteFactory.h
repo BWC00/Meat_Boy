@@ -13,16 +13,13 @@
 namespace view {
 class ConcreteFactory: public logic::AbstractFactory {
     public:
-        explicit ConcreteFactory(std::shared_ptr<sf::RenderWindow>);
+        explicit ConcreteFactory();
         ~ConcreteFactory() override = default;
         std::shared_ptr<logic::Player> createPlayer(double x, double y) override;
         std::shared_ptr<logic::Wall> createWall(double, double) override;
         std::shared_ptr<logic::Goal> createGoal(double, double) override;
-        std::shared_ptr<logic::Camera> createCamera() override;
         std::shared_ptr<logic::Score> createScore() override;
     private:
-        std::shared_ptr<sf::RenderWindow> _window;
-        std::shared_ptr<logic::Camera> _view = nullptr;
         std::shared_ptr<logic::Score> _score = nullptr;
     };
 }

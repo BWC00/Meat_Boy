@@ -13,7 +13,7 @@
 namespace view {
     class Game{
     public:
-        explicit Game(int windowWidth=1200, int windowHeight=1800);
+        Game();
         ~Game()=default;
     private:
 //        void reset();
@@ -21,11 +21,9 @@ namespace view {
         void Display();
         void clearWindow();
         static void Sleep();
-        void createWindow(int width, int height);
         void createManager();
         void handleInput();
         bool _running;
-        std::shared_ptr<sf::RenderWindow> _window;
         std::shared_ptr<view::StateManager> _stateManager;
 //        sf::Event _event;
 //        sf::Image _icon;

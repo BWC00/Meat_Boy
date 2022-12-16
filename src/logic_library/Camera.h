@@ -11,7 +11,8 @@ namespace logic {
     class Player;
     class Camera : public logic::Subject {
     public:
-        Camera();
+        Camera(const Camera&) = delete;
+        static Camera& getCamera();
         ~Camera() override = default;
         //static std::pair<int, int> project(double x, double y);
         std::pair<int, int> project(const std::pair<double, double>& position);//, int windowWidth, int windowHeight);
@@ -22,10 +23,10 @@ namespace logic {
         bool getLost() const;
         void reset();
     private:
+        Camera();
         std::pair<double, double> _windowBounds;
         bool _lost;
     };
 }
-
 
 #endif //INC_2022_PROJECT_BWC00_CAMERA_H

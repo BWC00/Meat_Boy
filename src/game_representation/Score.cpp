@@ -4,6 +4,7 @@
 
 #include "Score.h"
 #include "Data.h"
+#include "Window.h"
 
 view::Score::Score(std::shared_ptr<logic::Score>& Score_model) {
     _subject = Score_model;
@@ -16,6 +17,6 @@ view::Score::Score(std::shared_ptr<logic::Score>& Score_model) {
 void view::Score::Update(logic::EVENT e,logic::Subject* theChangedSubject) {
     if (e == logic::EVENT::MOVE) {
         _scoreText.setString("Score: " + std::to_string(_subject.lock()->getScore()));
-        _window->draw(_scoreText);
+        view::Window::getWindow()->draw(_scoreText);
     }
 }

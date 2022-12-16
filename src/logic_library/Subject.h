@@ -19,7 +19,7 @@ namespace logic {
         void Attach(logic::EVENT, std::shared_ptr<logic::Observer>);
         void Notify(logic::EVENT);
     private:
-        std::map<logic::EVENT,std::vector<std::shared_ptr<logic::Observer>>> _observers;
+        std::map<logic::EVENT,std::vector<std::shared_ptr<logic::Observer> > > _observers;
     };
 }
 

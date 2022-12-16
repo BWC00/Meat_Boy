@@ -9,7 +9,10 @@ namespace logic {
     enum class INPUT {
         RIGHT,
         LEFT,
+        UP,
+        DOWN,
         SPACE,
+        ENTER,
         NONE,
         EXIT
     };

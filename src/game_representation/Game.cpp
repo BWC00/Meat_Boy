@@ -6,12 +6,13 @@
 #include "Game.h"
 #include "Data.h"
 #include "../logic_library/Stopwatch.h"
+#include "Window.h"
 
-view::Game::Game(int windowWidth, int windowHeight) : _running(true) {
+view::Game::Game() : _running(true) {
 
     //init
     Data::load();
-    createWindow(windowWidth, windowHeight);
+    view::Window::getWindow();
     createManager();
 
     //run
@@ -29,23 +30,29 @@ void view::Game::run() {
 }
 
 void view::Game::handleInput() {
-    sf::Event event{};
-    while(_window->pollEvent(event)){
+    sf::Event event;
+    while(view::Window::getWindow()->pollEvent(event)){
         if(event.type == sf::Event::Closed){
-            _window->close();
+            view::Window::getWindow()->close();
             _running = false;
         }
     }
     if (!_running) {
-        _stateManager->handleInput(logic::INPUT::EXIT);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        _stateManager->handleInput(logic::INPUT::RIGHT);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        _stateManager->handleInput(logic::INPUT::LEFT);
+        _stateManager->exitKey();
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        _stateManager->rightKey();
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        _stateManager->leftKey();
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		_stateManager->upKey();
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		_stateManager->downKey();
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        _stateManager->handleInput(logic::INPUT::SPACE);
+        _stateManager->spaceKey();
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		_stateManager->enterKey();
     } else {
-        _stateManager->handleInput(logic::INPUT::NONE);
+        _stateManager->noInput();
     }
 }
 
@@ -54,7 +61,7 @@ void view::Game::Sleep() {
 }
 
 void view::Game::clearWindow() {
-    _window->clear(sf::Color::Black);
+    view::Window::getWindow()->clear(sf::Color::Black);
 }
 
 void view::Game::createManager() {
@@ -62,13 +69,5 @@ void view::Game::createManager() {
 }
 
 void view::Game::Display() {
-    _window->display();
-}
-
-void view::Game::createWindow(int width, int height) {
-    _window = std::make_shared<sf::RenderWindow>();
-    _window->create(sf::VideoMode(width, height), "Doodle Jump");
-    //_window.setIcon(m_app_icon.getSize().x, m_app_icon.getSize().y, m_app_icon.getPixelsPtr());
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    _window->setPosition(sf::Vector2i(desktop.width / 2 - _window->getSize().x/2, desktop.height/2 - _window->getSize().y/2));
+    view::Window::getWindow()->display();
 }

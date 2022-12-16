@@ -12,7 +12,7 @@ namespace view {
     class Score final : public view::EntityView {
     public:
         explicit Score(std::shared_ptr<logic::Score>&);
-        ~Score() override = default;
+        virtual ~Score() override = default;
         void Update(logic::EVENT,logic::Subject*) override;
     private:
         sf::Text _scoreText;

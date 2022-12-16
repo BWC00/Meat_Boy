@@ -1,2 +1,7 @@
 build/
 cmake-build-debug/
+.DS_Store
+.idea/
+Data/.DS_Store
+Data/Font/.DS_Store
+Data/Texture/.DS_Store

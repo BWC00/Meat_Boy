@@ -7,15 +7,17 @@
 
 #include "AbstractFactory.h"
 #include "INPUT.h"
+#include <deque>
 
 namespace logic {
     class World {
     public:
-        explicit World(const std::shared_ptr<logic::AbstractFactory>&);
+        explicit World(const std::shared_ptr<logic::AbstractFactory>&, const std::string&);
         void update(INPUT);
     private:
-        std::shared_ptr<logic::Camera> _view;
         std::shared_ptr<logic::Player> _player;
+        std::vector<std::vector<std::shared_ptr<logic::Wall> > > _walls;
+        std::shared_ptr<logic::Goal> _goal;
         std::shared_ptr<logic::AbstractFactory> _factory;
         std::shared_ptr<logic::Score> _score;
         bool collisionWithPlayer(const std::shared_ptr<logic::EntityModel>& object) const;

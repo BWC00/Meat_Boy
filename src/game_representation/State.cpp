@@ -3,3 +3,8 @@
 //
 
 #include "State.h"
+#include "StateManager.h"
+
+view::State::State(const std::shared_ptr<StateManager>& context) : _stateManager(context) {
+
+}

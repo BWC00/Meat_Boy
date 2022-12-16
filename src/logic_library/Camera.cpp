@@ -12,6 +12,11 @@ logic::Camera::Camera() : _lost(false) {
     reset();
 }
 
+logic::Camera& logic::Camera::getCamera() {
+    static Camera instance;
+    return instance;
+}
+
 bool logic::Camera::getLost() const {
     return _lost;
 }
@@ -35,7 +40,7 @@ void logic::Camera::shift_view(double amount) {
 }
 std::pair<int, int> logic::Camera::project(const std::pair<double, double>& position) {
     return std::make_pair(static_cast<int>(std::round((position.first+1.0)*(1200.0/2.0))),
-                          static_cast<int>(std::round((_windowBounds.second-position.second)*(1800.0/3.0))));
+                          static_cast<int>(std::round((_windowBounds.second-position.second)*(1600.0/3.0))));
 }
 
 //std::pair<int, int> logic::Camera::project(double x, double y) const {
