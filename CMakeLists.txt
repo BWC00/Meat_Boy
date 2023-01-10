@@ -12,12 +12,14 @@ ENDIF()
 # Look for SFML >= 2.0, with the specific subcomponents listed below
 FIND_PACKAGE(SFML 2 COMPONENTS system window graphics audio)
 
+file(COPY "./Data" DESTINATION "${CMAKE_BINARY_DIR}")
+
 ADD_EXECUTABLE(MeatBoy
         src/main.cpp
         src/game_representation/ConcreteFactory.cpp
         src/game_representation/ConcreteFactory.h
-        src/game_representation/ConcreteWall.cpp
-        src/game_representation/ConcreteWall.h
+        src/game_representation/SimpleWall.cpp
+        src/game_representation/SimpleWall.h
         src/game_representation/Data.cpp
         src/game_representation/Data.h
         src/game_representation/EntityView.cpp
@@ -36,8 +38,6 @@ ADD_EXECUTABLE(MeatBoy
         src/game_representation/MenuState.h
         src/game_representation/Player.cpp
         src/game_representation/Player.h
-        src/game_representation/Score.cpp
-        src/game_representation/Score.h
         src/game_representation/State.cpp
         src/game_representation/State.h
         src/game_representation/StateManager.cpp
@@ -45,15 +45,21 @@ ADD_EXECUTABLE(MeatBoy
         src/game_representation/Wall.cpp
         src/game_representation/Wall.h
         src/game_representation/Level.cpp
-        src/game_representation/Level.h src/game_representation/Window.cpp src/game_representation/Window.h)
+        src/game_representation/Level.h
+        src/game_representation/Window.cpp
+        src/game_representation/Window.h
+        src/game_representation/LevelsContext.cpp
+        src/game_representation/LevelsContext.h
+        src/game_representation/CONSTANTS.cpp
+        src/game_representation/CONSTANTS.h)
 
 ADD_LIBRARY(GameLogic STATIC
         src/logic_library/AbstractFactory.cpp
         src/logic_library/AbstractFactory.h
         src/logic_library/Camera.cpp
         src/logic_library/Camera.h
-        src/logic_library/ConcreteWall.cpp
-        src/logic_library/ConcreteWall.h
+        src/logic_library/SimpleWall.cpp
+        src/logic_library/SimpleWall.h
         src/logic_library/EntityModel.cpp
         src/logic_library/EntityModel.h
         src/logic_library/EVENT.h
@@ -61,17 +67,12 @@ ADD_LIBRARY(GameLogic STATIC
         src/logic_library/GirlGoal.h
         src/logic_library/Goal.cpp
         src/logic_library/Goal.h
-        src/logic_library/INPUT.h
         src/logic_library/MeatBoy.cpp
         src/logic_library/MeatBoy.h
         src/logic_library/Observer.cpp
         src/logic_library/Observer.h
         src/logic_library/Player.cpp
         src/logic_library/Player.h
-        src/logic_library/Random.cpp
-        src/logic_library/Random.h
-        src/logic_library/Score.cpp
-        src/logic_library/Score.h
         src/logic_library/Stopwatch.cpp
         src/logic_library/Stopwatch.h
         src/logic_library/Subject.cpp
@@ -80,7 +81,7 @@ ADD_LIBRARY(GameLogic STATIC
         src/logic_library/Wall.h
         src/logic_library/World.cpp
         src/logic_library/World.h
-        )
+        src/logic_library/CONSTANTS.cpp src/logic_library/CONSTANTS.h)
 
 TARGET_LINK_LIBRARIES(MeatBoy GameLogic)
 

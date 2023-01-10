@@ -5,47 +5,33 @@
 #ifndef INC_2022_PROJECT_BWC00_PLAYER_H
 #define INC_2022_PROJECT_BWC00_PLAYER_H
 
+#include "EVENT.h"
 #include "EntityModel.h"
+#include "Goal.h"
 #include "Wall.h"
-
 
 namespace logic {
 
-    enum class PLAYER {
-        UP,
-        DOWN,
-        RIGHT,
-        LEFT
-    };
+class Player : public logic::EntityModel {
+public:
+    Player(double, double, const std::string&);
+    ~Player() override = default;
+    bool update(logic::EVENT, const std::vector<std::vector<std::shared_ptr<Wall>>>&, const std::shared_ptr<Goal>&,
+                bool);
+    bool collisionPlayerWithEntity(const std::shared_ptr<logic::EntityModel>&, double&, double&);
+    void reset();
 
-    class Player : public logic::EntityModel {
-    public:
-        Player(double, double);
-        ~Player() override = default;
-        void setJumpHeight(double);
-        void setJumpDuration(double);
-        PLAYER getDirection() const;
-        void Update(logic::INPUT) override;
-        const std::pair<double, double>& getPrevPosition() const;
-        void Jumped();
-        PLAYER getFacing() const;
-        void setLowerBound(double a);
-        void setUpperBound(double a);
-        void died();
-        std::weak_ptr<logic::Wall> _platformUnderPlayer;
-    private:
-        PLAYER _direction;
-        PLAYER _facing;
-        bool _jumped;
-        std::pair<double, double> _velocity;
-        std::pair<double, double> _prevPosition;
-        double _jumpHeight;
-        double _jumpTime;
-        bool _dead;
-        double _lowerBound;
-        double _upperBound;
-    };
-}
+private:
+    std::pair<double, double> _velocity;
+    double _jumpHeight;
+    double _jumpTime;
 
+    bool _jumped;
+    bool _up_collision;
+    bool _down_collision;
+    bool _right_collision;
+    bool _left_collision;
+};
+} // namespace logic
 
-#endif //INC_2022_PROJECT_BWC00_PLAYER_H
+#endif // INC_2022_PROJECT_BWC00_PLAYER_H

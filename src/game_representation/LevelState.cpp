@@ -3,49 +3,34 @@
 //
 
 #include "LevelState.h"
-#include "../logic_library/INPUT.h"
+#include "Data.h"
+#include "LevelsContext.h"
+#include "MenuState.h"
+#include "StateManager.h"
+#include "Window.h"
 #include <memory>
 
-view::LevelState::LevelState(const std::shared_ptr<StateManager>& context, const std::string& levelName) : State(context) {
-    createFactory();
-    createWorld(levelName);
-}
-void view::LevelState::createFactory() {
-    _factory = std::make_shared<view::ConcreteFactory>();
+view::LevelState::LevelState() {
+    _background = std::make_unique<sf::Sprite>();
+    createWorld(view::LevelsContext::getCurrentLevelName());
+    _background->setTexture(view::LevelsContext::getCurrentLevelBackgroundTexture());
 }
 
 void view::LevelState::createWorld(const std::string& levelName) {
-    _world = std::make_unique<logic::World>(_factory, levelName);
+    _world = std::make_unique<logic::World>(std::make_unique<view::ConcreteFactory>(), levelName);
 }
 
-void view::LevelState::exitKey() {
-	_world->update(logic::INPUT::EXIT);
+void view::LevelState::handleInput(logic::EVENT i, bool firstKey) {
+    view::Window::getWindow()->draw(*_background);
+    checkIfWon(_world->update(i, firstKey));
+    if (i == logic::EVENT::ESC) {
+        _stateManager.lock()->changeState(std::make_unique<view::MenuState>());
+    }
 }
 
-void view::LevelState::noInput() {
-	_world->update(logic::INPUT::NONE);
-}
-
-void view::LevelState::rightKey() {
-	_world->update(logic::INPUT::RIGHT);
-}
-
-void view::LevelState::leftKey() {
-	_world->update(logic::INPUT::LEFT);
-}
-
-void view::LevelState::upKey() {
-	_world->update(logic::INPUT::UP);
-}
-
-void view::LevelState::downKey() {
-	_world->update(logic::INPUT::DOWN);
-}
-
-void view::LevelState::spaceKey() {
-	_world->update(logic::INPUT::SPACE);
-}
-
-void view::LevelState::enterKey() {
-	_world->update(logic::INPUT::ENTER);
+void view::LevelState::checkIfWon(bool w) {
+    if (w) {
+        view::LevelsContext::goNextLevel();
+        _stateManager.lock()->changeState(std::make_unique<LevelState>());
+    }
 }

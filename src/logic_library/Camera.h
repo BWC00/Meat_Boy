@@ -8,25 +8,27 @@
 #include "Subject.h"
 
 namespace logic {
-    class Player;
-    class Camera : public logic::Subject {
-    public:
-        Camera(const Camera&) = delete;
-        static Camera& getCamera();
-        ~Camera() override = default;
-        //static std::pair<int, int> project(double x, double y);
-        std::pair<int, int> project(const std::pair<double, double>& position);//, int windowWidth, int windowHeight);
-        void shift_view(double amount);
-        double getUpperBound() const;
-        double getLowerBound() const;
-        void Update(std::shared_ptr<logic::Player> player);
-        bool getLost() const;
-        void reset();
-    private:
-        Camera();
-        std::pair<double, double> _windowBounds;
-        bool _lost;
-    };
-}
+class Player;
+class Camera : public logic::Subject {
+public:
+    // getters
+    static double getUpperBound();
+    static double getLowerBound();
 
-#endif //INC_2022_PROJECT_BWC00_CAMERA_H
+    std::pair<int, int> project(const std::pair<double, double>& position);
+    void update(const std::shared_ptr<logic::Player>& player);
+    static void shiftView(double amount);
+    void shift_view(double amount);
+    static void reset();
+
+    Camera(const Camera&) = delete;
+    static Camera& getCamera();
+    ~Camera() override = default;
+
+private:
+    Camera();
+    std::pair<double, double> _windowBounds;
+};
+} // namespace logic
+
+#endif // INC_2022_PROJECT_BWC00_CAMERA_H

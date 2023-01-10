@@ -2,58 +2,12 @@
 #include "game_representation/Game.h"
 #include <memory>
 
-//class X {
-//    public:
-//    void g();
-//};
-//
-//class A {
-//    private:
-//    int amino;
-//    public:
-//    int bimon;
-//    friend void X::g();
-//    protected:
-//    int cimon;
-//};
-//
-//class B : private A {
-//public:
-//    void f() {
-//
-//    }
-//    private:
-//    void gy() {
-//
-//    }
-//    protected:
-//    void ggf() {
-//
-//    }
-//};
-//
-//class C : private B {
-//public:
-//    void g() {
-//
-//    }
-//    private:
-//    int what;
-//    protected:
-//    int sinon;
-//};
-//
-//class D : public C {
-//    void test() {
-//
-//    }
-//};
-
 //werk aan de parameters x en y (positie van entities) te supportere in de logic
 int main()
 {
     try {
         view::Game game;
+        game.run();
     }
     catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;

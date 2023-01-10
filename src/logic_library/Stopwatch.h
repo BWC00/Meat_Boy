@@ -8,22 +8,25 @@
 #include <chrono>
 
 namespace logic {
-    class Stopwatch {
-    public:
-        Stopwatch(const Stopwatch&) = delete;
-        static Stopwatch& getInstance();
-        static std::chrono::duration<double, std::milli>& getElapsed();
-        void timeit();
-        static void sleep();
-    private:
-        Stopwatch();
-        void resetStart();
-        void m_sleep();
-        std::chrono::steady_clock::time_point start;
-        std::chrono::duration<double, std::milli> dt;
-    };
-}
+class Stopwatch {
+public:
+    // getters
+    static Stopwatch& getInstance();
+    static std::chrono::duration<double, std::milli>& getElapsed();
 
+    void timeit();
+    static void sleep();
 
+    Stopwatch(const Stopwatch&) = delete;
 
-#endif //INC_2022_PROJECT_BWC00_STOPWATCH_H
+private:
+    Stopwatch();
+    void resetStart();
+    void m_sleep();
+
+    std::chrono::steady_clock::time_point start;
+    std::chrono::duration<double, std::milli> dt;
+};
+} // namespace logic
+
+#endif // INC_2022_PROJECT_BWC00_STOPWATCH_H

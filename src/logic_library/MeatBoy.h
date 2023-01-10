@@ -8,12 +8,11 @@
 #include "Player.h"
 
 namespace logic {
-    class MeatBoy final : public logic::Player {
-    public:
-        MeatBoy(double x, double y);
-        ~MeatBoy() override = default;
-        void Update(logic::INPUT) override;
-    };
-}
+class MeatBoy final : public logic::Player {
+public:
+    MeatBoy(double x, double y, const std::string&);
+    ~MeatBoy() override = default;
+};
+} // namespace logic
 
-#endif //INC_2022_PROJECT_BWC00_MEATBOY_H
+#endif // INC_2022_PROJECT_BWC00_MEATBOY_H

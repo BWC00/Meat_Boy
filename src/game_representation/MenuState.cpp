@@ -2,98 +2,57 @@
 // Created by student on 8/12/22.
 //
 
-#include <dirent.h>
 #include "MenuState.h"
-#include <iostream>
-#include <algorithm>
+#include "CONSTANTS.h"
+#include "Data.h"
 #include "LevelState.h"
+#include "LevelsContext.h"
+#include "Window.h"
+#include <algorithm>
 #include <iostream>
 #include <string>
-#include "Data.h"
-#include "Window.h"
 
-view::MenuState::MenuState() : _currentLevel(0), MAX_LEVELS_ON_SCREEN(10), prevKey("none") {
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir ("../Data/Levels")) != nullptr) {
-        /* print all the files and directories within directory */
-        while ((ent = readdir (dir)) != nullptr) {
-            if ((std::string(ent->d_name) != ".") && (std::string(ent->d_name) != "..") && (std::string(ent->d_name) != ".DS_Store")) {
-                _levels.emplace_back(Level(ent->d_name));
-            }
+view::MenuState::MenuState() : prevKey("none") {
+    _background = std::make_unique<sf::Sprite>();
+    _background->setTexture(view::Data::string2Texture[view::constants::MENU_BACKGROUND_TEXTURE_NAME]);
+}
+
+void view::MenuState::handleInput(logic::EVENT i, bool firstKey) {
+    if (i == logic::EVENT::EXIT) {
+        prevKey = "exit";
+    } else if (i == logic::EVENT::ESC) {
+        prevKey = "exit";
+    } else if (i == logic::EVENT::NONE) {
+        draw();
+        prevKey = "none";
+    } else if (i == logic::EVENT::RIGHT) {
+        draw();
+        prevKey = "right";
+    } else if (i == logic::EVENT::LEFT) {
+        draw();
+        prevKey = "left";
+    } else if (i == logic::EVENT::UP) {
+        if (prevKey != "up") {
+            view::LevelsContext::goPrevLevel();
+            prevKey = "up";
         }
-        closedir (dir);
-    } else {
-        /* could not open directory */
-        perror ("");
-        //return EXIT_FAILURE;
+        draw();
+    } else if (i == logic::EVENT::DOWN) {
+        if (prevKey != "down") {
+            view::LevelsContext::goNextLevel();
+            prevKey = "down";
+        }
+        draw();
+    } else if (i == logic::EVENT::SPACE) {
+        draw();
+        prevKey = "space";
+    } else if (i == logic::EVENT::ENTER) {
+        _stateManager.lock()->changeState(std::make_unique<view::LevelState>());
+        prevKey = "enter";
     }
-    _background.setTexture(view::Data::MenuBackgroundTexture);
-}
-
-
-view::MenuState& view::MenuState::getInstance(const std::shared_ptr<StateManager>& context) {
-    static MenuState instance;
-    instance._stateManager = context;
-    return instance;
-}
-
-void view::MenuState::exitKey() {
-    prevKey = "exit";
-}
-
-void view::MenuState::noInput() {
-    draw();
-    prevKey = "none";
-}
-
-void view::MenuState::rightKey() {
-    draw();
-    prevKey = "right";
-}
-
-void view::MenuState::leftKey() {
-    draw();
-    prevKey = "left";
-}
-
-void view::MenuState::upKey() {
-    if (prevKey != "up") {
-        _levels[_currentLevel].getSprite().setColor(sf::Color(255,255,255,255));
-        _levels[_currentLevel].getText().setFillColor(sf::Color::Black);
-        _currentLevel = std::max(0,_currentLevel-1);
-        prevKey = "up";
-    }
-    draw();
-}
-
-void view::MenuState::downKey() {
-    if (prevKey != "down") {
-        _levels[_currentLevel].getSprite().setColor(sf::Color(255,255,255,255));
-        _levels[_currentLevel].getText().setFillColor(sf::Color::Black);
-        _currentLevel = std::min(int(_levels.size()-1), _currentLevel+1);
-        prevKey = "down";
-    }
-    draw();
-}
-
-void view::MenuState::spaceKey() {
-    draw();
-    prevKey = "space";
-}
-
-void view::MenuState::enterKey() {
-    _stateManager->changeState(LevelState(_stateManager, _levels[_currentLevel].getName()));
-    prevKey = "enter";
 }
 
 void view::MenuState::draw() {
-    view::Window::getWindow()->draw(_background);
-    int y = 0;
-    _levels[_currentLevel].getSprite().setColor(sf::Color(255,255,255,180));
-    _levels[_currentLevel].getText().setFillColor(sf::Color(200,0,0,255));
-    for (int i = std::max(0,_currentLevel+1-MAX_LEVELS_ON_SCREEN); i < std::min((int)_levels.size(),MAX_LEVELS_ON_SCREEN+std::max(0,_currentLevel-MAX_LEVELS_ON_SCREEN+1)); i++) {
-        _levels[i].draw(y);
-        y += _levels[i].getHeight();
-    }
+    view::Window::getWindow()->draw(*_background);
+    view::LevelsContext::drawMenu();
 }

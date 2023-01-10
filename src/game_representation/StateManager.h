@@ -6,25 +6,20 @@
 #define INC_2022_PROJECT_BWC00_STATEMANAGER_H
 
 #include "ConcreteFactory.h"
+#include "State.h"
 
 namespace view {
-	class State;
-    class StateManager {
-    public:
-        StateManager();
-        void exitKey();
-		void noInput();
-		void rightKey();
-		void leftKey();
-		void upKey();
-		void downKey();
-		void spaceKey();
-		void enterKey();
-		void changeState(const State&);
-    private:
-        State& _state;
-    };
-}
+class State;
+class StateManager : public std::enable_shared_from_this<StateManager> {
+public:
+    StateManager();
+    void handleInput(logic::EVENT, bool);
+    void changeState(std::unique_ptr<view::State>);
+    ~StateManager() = default;
 
+private:
+    std::unique_ptr<view::State> _state;
+};
+} // namespace view
 
-#endif //INC_2022_PROJECT_BWC00_STATEMANAGER_H
+#endif // INC_2022_PROJECT_BWC00_STATEMANAGER_H

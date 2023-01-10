@@ -5,16 +5,15 @@
 #include "EntityView.h"
 #include "Data.h"
 #include "Window.h"
-#include "../logic_library/Camera.h"
 
-view::EntityView::EntityView(const std::shared_ptr<logic::EntityModel> &entity_model)  {
-    _entityModel = entity_model;
+view::EntityView::EntityView(const std::shared_ptr<logic::EntityModel>& entityModel) : _entityModel(entityModel) {
+    _sprite = std::make_unique<sf::Sprite>();
 }
 
-void view::EntityView::Update(logic::EVENT e, logic::Subject* theChangedSubject) {
-    if (e == logic::EVENT::MOVE) {
+void view::EntityView::update(logic::EVENT e, logic::Subject* theChangedSubject) {
+    if (e == logic::EVENT::TICK) {
         std::pair<int, int> pixelPosition = logic::Camera::getCamera().project(_entityModel.lock()->getPosition());
-        _sprite.setPosition(pixelPosition.first, pixelPosition.second);
-        view::Window::getWindow()->draw(_sprite);
+        _sprite->setPosition(pixelPosition.first, pixelPosition.second);
+        view::Window::getWindow()->draw(*_sprite);
     }
 }

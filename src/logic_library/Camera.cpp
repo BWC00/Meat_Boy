@@ -2,14 +2,14 @@
 // Created by student on 5/12/22.
 //
 
-#include <cmath>
 #include "Camera.h"
+#include "CONSTANTS.h"
 #include "Player.h"
+#include <cmath>
 
-logic::Camera::Camera() : _lost(false) {
-//_renderWindow.first = 1200;
-    //   _renderWindow.second = 1800;
-    reset();
+logic::Camera::Camera() {
+    _windowBounds.first = logic::constants::INITIAL_WINDOW_LOWER_BOUND;
+    _windowBounds.second = logic::constants::INITIAL_WINDOW_UPPER_BOUND;
 }
 
 logic::Camera& logic::Camera::getCamera() {
@@ -17,42 +17,33 @@ logic::Camera& logic::Camera::getCamera() {
     return instance;
 }
 
-bool logic::Camera::getLost() const {
-    return _lost;
-}
-
 void logic::Camera::reset() {
-    _windowBounds.first = 2.0;
-    _windowBounds.second = 5.0;
+    getCamera()._windowBounds.first = logic::constants::INITIAL_WINDOW_LOWER_BOUND;
+    getCamera()._windowBounds.second = logic::constants::INITIAL_WINDOW_UPPER_BOUND;
 }
 
-double logic::Camera::getLowerBound() const {
-    return _windowBounds.first;
-}
+void logic::Camera::shiftView(double amount) { getCamera().shift_view(amount); }
 
-double logic::Camera::getUpperBound() const {
-    return _windowBounds.second;
-}
+double logic::Camera::getLowerBound() { return getCamera()._windowBounds.first; }
+
+double logic::Camera::getUpperBound() { return getCamera()._windowBounds.second; }
 
 void logic::Camera::shift_view(double amount) {
     _windowBounds.first += amount;
     _windowBounds.second += amount;
 }
+
 std::pair<int, int> logic::Camera::project(const std::pair<double, double>& position) {
-    return std::make_pair(static_cast<int>(std::round((position.first+1.0)*(1200.0/2.0))),
-                          static_cast<int>(std::round((_windowBounds.second-position.second)*(1600.0/3.0))));
+    return std::make_pair(
+        static_cast<int>(std::round((position.first + 1.0) *
+                                    (logic::constants::RENDERWINDOW_WIDTH / logic::constants::WINDOW_WIDTH))),
+        static_cast<int>(std::round((_windowBounds.second - position.second) *
+                                    (logic::constants::RENDERWINDOW_HEIGHT / logic::constants::WINDOW_HEIGHT))));
 }
 
-//std::pair<int, int> logic::Camera::project(double x, double y) const {
-//    return std::make_pair(static_cast<int>(std::round((x+1.0)*(((double) _renderWindow.first)/2.0))),
-//    static_cast<int>(std::round((_windowBounds.second-y)*(((double) _renderWindow.second)/3.0))));
-//}
-
-void logic::Camera::Update(std::shared_ptr<logic::Player> player) {
-    double amount = player->getPosition().second - (_windowBounds.first + 3.0/1.6); //1.95
+void logic::Camera::update(const std::shared_ptr<logic::Player>& player) {
+    double amount = player->getPosition().second - (_windowBounds.first + (4.0 / 5) * logic::constants::WINDOW_HEIGHT);
     if (amount > 0) {
-        //std::cout << amount << std::endl;
         shift_view(amount);
-        Notify(logic::EVENT::MOVE);
     }
 }

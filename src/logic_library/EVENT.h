@@ -6,12 +6,14 @@
 #define INC_2022_PROJECT_BWC00_EVENT_H
 
 namespace logic {
-    //int (*minus) (int , int) = [](int x, int y) -> int {return x+y;};
-    enum class EVENT {
-        MOVE,
-        COLLISION,
-        DELETE
-    };
+enum class EVENT {
+	TICK,
+	RIGHT,
+	LEFT,
+	UP,
+	DOWN,
+	SPACE,
+	ENTER, NONE, EXIT, ESC };
 }
 
-#endif //INC_2022_PROJECT_BWC00_EVENT_H
+#endif // INC_2022_PROJECT_BWC00_EVENT_H

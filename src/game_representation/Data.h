@@ -5,28 +5,37 @@
 #ifndef INC_2022_PROJECT_BWC00_DATA_H
 #define INC_2022_PROJECT_BWC00_DATA_H
 
-#include <string>
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <string>
 
 namespace view {
-    namespace Data {
-        inline sf::Texture MeatBoyTexture;
-        inline sf::Texture ConcreteWallTexture;
-        inline sf::Texture MeatGirlTexture;
-        inline sf::Texture LevelBarTexture;
-        inline sf::Texture MenuBackgroundTexture;
-        inline sf::Font font;
-        inline sf::Font levelFont;
+namespace Data {
+inline sf::Texture MeatBoyTexture;
+inline sf::Texture ConcreteWallTexture;
+inline sf::Texture MudWallTexture;
+inline sf::Texture MeatGirlTexture;
+inline sf::Texture LevelBarTexture;
+inline sf::Texture MenuBackgroundTexture;
+inline sf::Texture CloudyBackgroundTexture;
+inline sf::Texture LavaBackgroundTexture;
 
-        void load();
-        template<typename T>
-        void loadAsset(T &asset, const std::string &path) {
-            if (!asset.loadFromFile(path)) {
-                //throw MissingAsset(path);
-            }
-        }
-    };
+inline sf::Font font;
+inline sf::Font levelFont;
+
+void load();
+
+inline std::map<std::string, sf::Texture> string2Texture;
+inline std::map<std::string, sf::Font> string2Font;
+
+template <typename T>
+T& loadAsset(T& asset, const std::string& path) {
+    if (!asset.loadFromFile(path)) {
+        // throw MissingAsset(path);
+    }
+    return asset;
 }
+}; // namespace Data
+} // namespace view
 
-#endif //INC_2022_PROJECT_BWC00_DATA_H
+#endif // INC_2022_PROJECT_BWC00_DATA_H

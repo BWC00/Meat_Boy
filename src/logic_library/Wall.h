@@ -8,12 +8,11 @@
 #include "EntityModel.h"
 
 namespace logic {
-    class Wall : public logic::EntityModel {
-    public:
-        Wall(double, double);
-        ~Wall() override = default;
-    };
-}
+class Wall : public logic::EntityModel {
+public:
+    Wall(double, double, const std::string&);
+    ~Wall() override = default;
+};
+} // namespace logic
 
-
-#endif //INC_2022_PROJECT_BWC00_WALL_H
+#endif // INC_2022_PROJECT_BWC00_WALL_H

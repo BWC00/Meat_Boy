@@ -4,23 +4,19 @@
 
 #include "EntityModel.h"
 
-logic::EntityModel::EntityModel(double x, double y) {
-    setPosition(x,y);
+logic::EntityModel::EntityModel(double x, double y, const std::string& texture)
+    : _originalPosition(x, y), _textureName(texture) {
+    _position = {x, y};
 }
 
-const std::pair<double, double>& logic::EntityModel::getPosition() {
-    return _position;
-}
+// getters
+const std::pair<double, double>& logic::EntityModel::getOriginalPosition() const { return _originalPosition; }
 
-void logic::EntityModel::setPosition(const std::pair<double, double>& position) {
-    _position = position;
-}
+const std::string& logic::EntityModel::getTexture() const { return _textureName; }
 
-void logic::EntityModel::setPosition(double x, double y) {
-    _position.first = x;
-    _position.second = y;
-}
+const std::pair<double, double>& logic::EntityModel::getPosition() { return _position; }
 
-const std::pair<double, double>& logic::EntityModel::getHitbox() {
-    return _hitBox;
-}
+const std::pair<double, double>& logic::EntityModel::getHitbox() const { return _hitBox; }
+
+// setters
+void logic::EntityModel::setPosition(double x, double y) { _position = {x, y}; }

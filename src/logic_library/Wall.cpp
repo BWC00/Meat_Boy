@@ -4,4 +4,4 @@
 
 #include "Wall.h"
 
-logic::Wall::Wall(double x, double y) : logic::EntityModel(x,y) {}
+logic::Wall::Wall(double x, double y, const std::string& texture) : logic::EntityModel(x, y, texture) {}

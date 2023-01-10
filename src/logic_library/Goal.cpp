@@ -4,4 +4,4 @@
 
 #include "Goal.h"
 
-logic::Goal::Goal(double x, double y) : logic::EntityModel(x,y) {}
+logic::Goal::Goal(double x, double y, const std::string& texture) : logic::EntityModel(x, y, texture) {}
