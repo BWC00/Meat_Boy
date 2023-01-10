@@ -6,14 +6,7 @@
 #define INC_2022_PROJECT_BWC00_EVENT_H
 
 namespace logic {
-enum class EVENT {
-	TICK,
-	RIGHT,
-	LEFT,
-	UP,
-	DOWN,
-	SPACE,
-	ENTER, NONE, EXIT, ESC };
+enum class EVENT { TICK, RIGHT, LEFT, UP, DOWN, SPACE, ENTER, NONE, EXIT, ESC };
 }
 
 #endif // INC_2022_PROJECT_BWC00_EVENT_H
