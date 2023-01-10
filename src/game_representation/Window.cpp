@@ -7,6 +7,7 @@
 
 view::Window::Window() {
     _window = std::make_unique<sf::RenderWindow>();
+    _window->setKeyRepeatEnabled(false);
     _window->create(sf::VideoMode(logic::constants::RENDERWINDOW_WIDTH, logic::constants::RENDERWINDOW_HEIGHT),
                     "Meat Boy");
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();

@@ -27,6 +27,7 @@ private:
     double _jumpTime;
 
     bool _jumped;
+    bool _spaceable;
     bool _up_collision;
     bool _down_collision;
     bool _right_collision;

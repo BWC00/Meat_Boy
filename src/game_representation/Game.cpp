@@ -7,6 +7,7 @@
 #include "Data.h"
 #include "MenuState.h"
 #include "Window.h"
+#include <iostream>
 
 view::Game::Game() : _running(false), _stateManager(nullptr) {
 
@@ -47,6 +48,11 @@ void view::Game::_handleInput() {
         noInput = false;
         return;
     }
+
+    if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space) {
+        _stateManager->handleInput(logic::EVENT::SPACERELEASE, false);
+    }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         _stateManager->handleInput(logic::EVENT::ESC, firstKey);
         firstKey = false;
@@ -72,7 +78,7 @@ void view::Game::_handleInput() {
         firstKey = false;
         noInput = false;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Event::KeyReleased && sf::Keyboard::Space) {
         _stateManager->handleInput(logic::EVENT::SPACE, firstKey);
         firstKey = false;
         noInput = false;
