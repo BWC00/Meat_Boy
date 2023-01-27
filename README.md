@@ -1,7 +1,5 @@
 A 2D platformer game inspired by Meat Boy, written in C++ 17 using SFML 2.5.1 and nlohmann/json. 
 
-This project is part of an advanced programming course at the University of Antwerp.
-
 ### Clone & compile and run this project:
 
 ```
